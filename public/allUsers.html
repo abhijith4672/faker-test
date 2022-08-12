@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.8.3/superagent.min.js"></script>
+
+<body>
+    <div style="padding:50px">
+        <button class="btn btn-primary" style="font-size: 3em;" onclick="data()">Show All Data</button><br />
+        <div id="status" style="margin-top: 2rem;"></div>
+        </main>
+        <script>
+
+            function data() {
+                var status = document.getElementById('status');
+                var url = '/data';
+
+                superagent
+                    .get(url)
+                    .end(function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            //console.log(res);
+                            //console.log(data[1].name)
+                            var data = res.body
+                            var sample = ``
+                            data.map(item => {
+                                sample =
+                                    sample +
+                                    `
+                                    <div class="container mt-5">
+                                        <div class="row">
+                                            <div class="col-md-3 p-3">
+                                              <div class="card " style="width: 20rem;height:auto">
+                                                  <div class="card-body">
+                                                      <h5 class="card-title">Name: ${item.name}</h5>
+                                                      <h6 class="card-subtitle mb-2 text-muted">User Name:${item.username}</h6>
+                                                      <p class="card-text">Email:${item.email}</p>
+                                                      <p class="card-text">DOB:${item.dob}</p>
+                                                      <p class="card-text">password:${item.password}</p>
+                                                      <p class="card-text">phone:${item.phone}</p>
+                                                      <p class="card-text">streetaddress:${item.streetaddress}</p>
+                                                      <p class="card-text">citystatezip:${item.citystatezip}</p>
+                                                      <p class="card-text">latitude:${item.latitude}</p>
+                                                      <p class="card-text">longitude:${item.longitude}</p>
+                                                      <a href="${item.avatar}" class="card-text">Avatar</a>
+                                                    </div>
+                                               </div> 
+                                            </div>
+                                        </div>
+                                   </div>`
+                                status.innerHTML = sample
+                            })
+
+                        }
+                    });
+            }
+
+        </script>
+</body>
+
+</html>
+
